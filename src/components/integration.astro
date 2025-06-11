@@ -1,0 +1,88 @@
+---
+// @ts-ignore
+import { Icon } from "astro-icon/components";
+import Link from "./ui/link.astro";
+
+const steps = [
+  {
+    title: "Registro en la aplicación",
+    description: "Crea tu cuenta en Etedata y accede a tu panel de control personalizado para gestionar tu integración.",
+    icon: "bx:bxs-user-plus",
+    color: "bg-blue-100",
+    borderColor: "border-blue-200"
+  },
+  {
+    title: "Descarga e instala el SDK",
+    description: "Personaliza la configuración de tu SDK según las necesidades específicas de tu negocio y tus bases de datos NoSQL.",
+    icon: "bx:bxs-download",
+    color: "bg-purple-100",
+    borderColor: "border-green-200",
+    code: "// Configuración del SDK\nawait Etedata.configure({\n  database: \"mongodb\",\n  connectionString: \"mongodb://...\",\n  options: {\n    analytics: true,\n    autoSync: true\n  }\n});"
+  },
+  {
+    title: "Configúralo e impleméntalo",
+    description: "Integra el SDK de Etedata en tu infraestructura existente con nuestra documentación paso a paso y soporte técnico.",
+    icon: "bx:bxs-cog",
+    color: "bg-green-100",
+    borderColor: "border-purple-200",
+    code: "// Instalación del SDK\nimport { EtedataSDK } from \"@Etedata/sdk\";\n\nnpm install @Etedata/sdk"
+  },
+  {
+    title: "Aplica el iframe en tu front-end (opcional)",
+    description: "Añade el iframe de Etedata a tu aplicación para visualizar los análisis y dashboards en tiempo real.",
+    icon: "bx:bxs-window-alt",
+    color: "bg-yellow-100",
+    borderColor: "border-yellow-200",
+    code: "// Implementación del iframe\n<iframe\n  src=\"https://app.Etedata.ai/dashboard\"\n  width=\"100%\"\n  height=\"600px\"\n  frameborder=\"0\"\n></iframe>"
+  }
+];
+---
+
+<div class="mt-24 bg-gradient-to-b from-slate-50 to-white py-16 rounded-2xl shadow-sm">
+  <div class="max-w-6xl mx-auto px-4">
+    <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center">
+      Implementación en 4 pasos
+    </h2>
+    <p class="text-lg mt-4 text-slate-600 text-center max-w-3xl mx-auto">
+      Comienza a utilizar Etedata en tu negocio con un proceso de integración sencillo y guiado.
+    </p>
+
+    <div class="mt-16">
+      {
+        steps.map((item, index) => (
+          <div class="mb-12 last:mb-0">
+            <div class="flex flex-col md:flex-row items-start gap-6">
+              <div class={`${item.color} p-4 rounded-full w-16 h-16 flex items-center justify-center shadow-md shrink-0`}>
+                <Icon class="text-gray-800 w-8 h-8" name={item.icon} />
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center mb-2">
+                  <span class="text-3xl font-bold text-gray-800 mr-3">{index + 1}</span>
+                  <h3 class="font-bold text-xl text-gray-800">{item.title}</h3>
+                </div>
+                <p class="text-slate-600 mb-4">{item.description}</p>
+                {item.code ? (
+                  <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                    <pre class="text-sm font-mono text-white"><code>{item.code}</code></pre>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+            {index < steps.length - 1 && (
+              <div class="hidden md:block ml-8 mt-4 mb-4">
+                <div class="h-8 w-0.5 bg-gray-300"></div>
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="text-center mt-16">
+      <a href="/docs" class="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
+        Ver documentación completa
+        <Icon class="ml-2 w-5 h-5" name="bx:bx-right-arrow-alt" />
+      </a>
+    </div>
+  </div>
+</div> 

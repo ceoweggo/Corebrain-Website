@@ -1,0 +1,58 @@
+---
+// @ts-ignore
+import { Icon } from "astro-icon/components";
+
+const casosDeUso = [
+  {
+    title: "Análisis de datos en tiempo real",
+    description:
+      "Monitorea y analiza tus datos al instante para detectar patrones y anomalías. Toma decisiones inmediatas basadas en información actualizada.",
+    icon: "bx:bxs-time",
+    color: "bg-blue-100",
+  },
+  {
+    title: "Generación de informes automáticos",
+    description:
+      "Crea informes detallados y visualizaciones automáticamente. Ahorra tiempo y recursos en la preparación de informes manuales.",
+    icon: "bx:bxs-report",
+    color: "bg-green-100",
+  },
+  {
+    title: "Consultas en lenguaje natural",
+    description:
+      "Haz preguntas sobre tus datos usando lenguaje normal. No necesitas aprender lenguajes de consulta específicos para cada base de datos.",
+    icon: "bx:bxs-message-square-dots",
+    color: "bg-purple-100",
+  },
+  {
+    title: "Predicción de tendencias",
+    description:
+      "Usa algoritmos de IA para predecir tendencias y comportamientos futuros. Anticípate a las necesidades del mercado con datos históricos.",
+    icon: "bx:bxs-chart",
+    color: "bg-yellow-100",
+  },
+];
+---
+
+<div class="mt-24">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center">
+    Casos de uso
+  </h2>
+  <p class="text-lg mt-4 text-slate-600 text-center max-w-3xl mx-auto">
+    Descubre cómo Corebrain puede transformar la forma en que analizas y utilizas tus datos NoSQL en diferentes escenarios empresariales.
+  </p>
+
+  <div class="grid sm:grid-cols-2 gap-10 mx-auto max-w-5xl mt-16">
+    {
+      casosDeUso.map((item) => (
+        <div class="flex flex-col p-6 rounded-lg border border-gray-200 hover:shadow-lg transition">
+          <div class={`${item.color} p-3 rounded-full w-12 h-12 flex items-center justify-center mb-4`}>
+            <Icon class="text-gray-800 w-6 h-6" name={item.icon} />
+          </div>
+          <h3 class="font-semibold text-xl text-gray-800">{item.title}</h3>
+          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
+        </div>
+      ))
+    }
+  </div>
+</div> 

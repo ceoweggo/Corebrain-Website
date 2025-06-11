@@ -1,0 +1,92 @@
+---
+import { SEO } from "astro-seo";
+import Footer from "@components/footer.astro";
+import Navbar from "@components/navbar/navbar.astro";
+import "@fontsource-variable/inter";
+import '@fontsource/bricolage-grotesque';
+import { getTheme } from "../utils/theme";
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title,
+  description = "Etedata - Análisis Inteligente de Datos NoSQL",
+  image = "/social-preview.png",
+  frontmatter,
+  robots,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+
+const resolvedImageWithDomain = new URL(
+  image,
+  Astro.site
+).toString();
+
+const makeTitle = title
+  ? title + " | " + "Etedata"
+  : "Etedata - Análisis Inteligente de Datos NoSQL";
+
+// Obtener el tema inicial del servidor
+const initialTheme = getTheme();
+---
+
+<!DOCTYPE html>
+<html lang="es" class:list={[initialTheme === 'dark' ? 'dark' : '']}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
+    <SEO
+      title={makeTitle}
+      description={description}
+      canonical={canonicalURL}
+      twitter={{
+        creator: "@corebrain",
+        site: "@corebrain",
+        card: "summary_large_image",
+      }}
+      openGraph={{
+        basic: {
+          url: canonicalURL,
+          type: "website",
+          title: makeTitle,
+          image: resolvedImageWithDomain,
+        },
+        image: {
+          alt: "Etedata - Análisis Inteligente de Datos NoSQL",
+        },
+        optional: {
+          description,
+        },
+      }}
+    />
+  </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased">
+    <Navbar />
+    <slot />
+    <Footer />
+    <style is:global>
+      /* Improve Page speed */
+      /* https://css-tricks.com/almanac/properties/c/content-visibility/ */
+      img {
+        content-visibility: auto;
+      }
+    </style>
+  </body>
+</html>
+
+<script>
+  import { getTheme, setTheme } from '../utils/theme';
+  
+  // Aplicar el tema inicial
+  const theme = getTheme();
+  setTheme(theme);
+</script>

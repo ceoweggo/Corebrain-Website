@@ -1,0 +1,64 @@
+---
+// @ts-ignore
+import { Icon } from "astro-icon/components";
+
+const steps = [
+  {
+    number: "1",
+    title: "Conecta tu DDBB",
+    description:
+      "Crea una cuenta en la plataforma, descarga el SDK y sigue la guía de integración para tu aplicación. ",
+    icon: "bx:bxs-data",
+  },
+  {
+    number: "2",
+    title: "Personaliza el chat",
+    description:
+      "Personaliza el chat y otros ajustes en nuestra plataforma para que la integración iFrame a tu HTML sea la adecuada.",
+    icon: "bx:bxs-message-alt-detail",
+  },
+  {
+    number: "3",
+    title: "Configura la aplicación",
+    description:
+      "Limita los parámetros de consulta del SDK. Selecciona roles o documentos claves según prioridades de acceso.",
+    icon: "bx:bxs-cog",
+  },
+  {
+    number: "4",
+    title: "Listo para su uso",
+    description:
+      "Mediante la consulta en el chat podrás generar informes y acceder a la información de la base de datos (DDBB).",
+    icon: "bx:bxs-rocket",
+  },
+];
+---
+
+<div class="py-16">
+  <div class="mb-12 text-center">
+    <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+      Cómo funciona
+    </h2>
+    <p class="text-lg mt-4 text-slate-600 max-w-3xl mx-auto">
+      <b>Implementa nuestro SDK en tu aplicación digital</b> para brindar acceso a tus usuarios a la información.
+      Especialmente útil para plataformas internas de gestión y aplicaciones SaaS.
+    </p>
+  </div>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
+    {
+      steps.map((step) => (
+        <div class="flex flex-col items-center text-center p-6 bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+          <div class="bg-primary-600 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mb-4">
+            {step.number}
+          </div>
+          <div class="bg-primary-100 rounded-full p-3 w-16 h-16 flex items-center justify-center mb-4">
+            <Icon class="text-primary-600 w-8 h-8" name={step.icon} />
+          </div>
+          <h3 class="font-semibold text-xl mb-2">{step.title}</h3>
+          <p class="text-slate-500 leading-relaxed">{step.description}</p>
+        </div>
+      ))
+    }
+  </div>
+</div> 

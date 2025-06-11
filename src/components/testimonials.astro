@@ -1,0 +1,64 @@
+---
+// @ts-ignore
+import { Icon } from "astro-icon/components";
+
+const testimonials = [
+  {
+    quote: "Etedata ha cambiado completamente cómo analizamos datos. Ahora obtenemos insights valiosos en minutos, no en días.",
+    author: "María Rodríguez",
+    role: "CTO, TechStartup",
+    company: "TechStartup",
+    image: "/testimonials/maria.jpg"
+  },
+  {
+    quote: "La integración con MongoDB fue sencilla y el soporte en español ha sido excelente. Etedata es exactamente lo que necesitábamos.",
+    author: "Carlos Méndez",
+    role: "Director de Datos",
+    company: "DataFlow Analytics",
+    image: "/testimonials/carlos.jpg"
+  },
+  {
+    quote: "Con Etedata, hemos reducido el tiempo de análisis en un 70% y mejorado la precisión de nuestros informes. Una herramienta imprescindible.",
+    author: "Laura Sánchez",
+    role: "Analista Senior",
+    company: "InnovaCorp",
+    image: "/testimonials/laura.jpg"
+  }
+];
+---
+
+<div class="mt-24">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center">
+    Lo que dicen nuestros clientes
+  </h2>
+  <p class="text-lg mt-4 text-slate-600 text-center max-w-3xl mx-auto">
+    Descubre cómo Etedata está ayudando a empresas a transformar sus datos en insights accionables.
+  </p>
+
+  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-10 mx-auto max-w-6xl mt-16">
+    {
+      testimonials.map((item) => (
+        <div class="flex flex-col p-6 rounded-lg border border-gray-200 hover:shadow-lg transition">
+          <div class="flex items-center mb-4">
+            <div class="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-4">
+              <img src={item.image} alt={item.author} class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h3 class="font-semibold text-gray-800">{item.author}</h3>
+              <p class="text-sm text-slate-500">{item.role}</p>
+              <p class="text-sm text-slate-500">{item.company}</p>
+            </div>
+          </div>
+          <div class="flex-grow">
+            <p class="text-slate-500 italic">"{item.quote}"</p>
+          </div>
+          <div class="mt-4 flex">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Icon class="text-yellow-400 w-5 h-5" name="bx:bxs-star" />
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div> 

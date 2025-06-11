@@ -1,0 +1,54 @@
+---
+import { Picture } from "astro:assets";
+import Link from "../components/ui/link.astro";
+import { Icon } from "astro-icon/components";
+import { ChatInterface } from './ChatInterfaceHero';
+---
+
+<main class="">
+  <!-- Hero Section -->
+  <div class="grid lg:grid-cols-2 gap-8 pt-16 pb-8 md:pt-12 md:pb-16">
+    <div class="flex flex-col justify-center">
+      <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold lg:tracking-tight xl:tracking-tighter">
+        Consigue reportes de datos en tiempo real
+      </h1>
+      <p class="text-lg mt-4 text-slate-600 max-w-xl">
+        Transforma tus datos NoSQL directamente desde la base de datos en conocimiento accionable con nuestro SDK de IA. 
+        Realiza <b>consultas en lenguaje natural</b> y genera informes automáticos.
+      </p>
+      <div class="mt-6 flex flex-col sm:flex-row gap-3">
+        <Link
+          href="http://localhost:3000/register"
+          class="flex gap-1 items-center justify-center"
+          rel="noopener">
+          <Icon class="text-white w-5 h-5 me-1" name="bx:bxs-rocket" />
+           Comenzar ahora
+        </Link>
+        <Link
+          size="lg"
+          style="outline"
+          rel="noopener"
+          href="/about"
+          class="flex gap-1 items-center justify-center">
+          <Icon class="text-black w-5 h-5 me-1" name="bx:bxs-message-square-dots" />
+          Solicitar una demo
+        </Link>
+      </div>
+    </div>
+    
+    <!-- Chat interface (hidden on mobile, shown on right in desktop) -->
+    <div class="hidden md:flex justify-center items-center">
+      <div class="w-full max-w-xl shadow-lg rounded-lg overflow-hidden">
+        <ChatInterface client:load />
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chat interface in mobile (below hero) -->
+  <div class="md:hidden py-8">
+    <h2 class="text-2xl font-bold mb-4 text-center">Asistente Inteligente</h2>
+    <div class="w-full shadow-lg rounded-lg overflow-hidden">
+      <ChatInterface client:load />
+    </div>
+  </div>
+</main>

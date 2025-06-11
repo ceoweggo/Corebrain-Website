@@ -1,0 +1,68 @@
+---
+// @ts-ignore
+import { Icon } from "astro-icon/components";
+
+const features = [
+  {
+    title: "Integración con Anthropic",
+    description:
+      "Análisis y comprensión del lenguaje a través de Claude 3.7 y 3.5, uno de los sistemas de IA más potente del mercado.",
+    icon: "bx:bxs-brain",
+  },
+  {
+    title: "Consultas en lenguaje natural",
+    description:
+      "Haz preguntas en tu idioma a través del chat. Éste entenderá tu consulta y devolverá la información oportuna.",
+    icon: "bx:bxs-message-square-dots",
+  },
+  {
+    title: "Análisis en tiempo real",
+    description:
+      "Procesa y analiza tus datos al instante. Toma decisiones informadas rápidamente y mantén tu negocio ágil.",
+    icon: "bx:bxs-time",
+  },
+  {
+    title: "Informes automáticos",
+    description:
+      "Genera informes avanzados automáticamente. Convierte datos dispersos en conocimiento útil y accionable.",
+    icon: "bx:bxs-report",
+  },
+  {
+    title: "Seguridad y privacidad",
+    description:
+      "Sólo tu tienes acceso a los datos. El SDK comprende tu cuestión y una función realiza las consultas de forma interna.",
+    icon: "bx:bxs-lock-alt",
+  },
+  {
+    title: "Integración simplificada",
+    description:
+      "Proceso sencillo y rápido a través del panel de control con autenticación centralizada usando Globodain SSO.",
+    icon: "bx:bxs-plug",
+  },
+];
+---
+
+<div class="mt-24 md:mt-0">
+  <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">
+    Exporta información de valor  
+  </h2>
+  <p class="text-lg mt-4 text-slate-600">
+    La integración de nuestro SDK en vuestra aplicación permite brindaros <b>acceso directo a consultas avanzadas</b>, evitando el desarrollo de funcionalidades complejas. Con un simple chat, permitimos acceder a la información a través del lenguaje natural.
+  </p>
+</div>
+
+<div class="grid sm:grid-cols-2 md:grid-cols-3 mt-16 gap-16">
+  {
+    features.map((item) => (
+      <div class="flex gap-4 items-start">
+        <div class="mt-1 bg-black rounded-full  p-2 w-8 h-8 shrink-0">
+          <Icon class="text-white" name={item.icon} />
+        </div>
+        <div>
+          <h3 class="font-semibold text-lg">{item.title}</h3>{" "}
+          <p class="text-slate-500 mt-2 leading-relaxed">{item.description}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>

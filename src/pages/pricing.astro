@@ -1,0 +1,131 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+
+const plans = {
+  personal: [
+    {
+      name: "Gratuito",
+      price: { monthly: 0 },
+      description: "Perfecto para pruebas y consultas pequeñas",
+      features: [
+        "50 consultas diarias",
+        "1 API Key de acceso a la CLI",
+        "Bases de datos SQL y NoSQL",
+        "Ejemplos de integración",
+        "Uso de preguntas inteligentes"
+      ],
+      cta: "Comenzar gratis",
+      popular: false
+    },
+    {
+      name: "Pro",
+      price: { monthly: 29 },
+      description: "Para profesionales",
+      features: [
+        "150 consultas diarias",
+        "Sin límites de API Keys",
+        "Bases de datos SQL y NoSQL",
+        "Ejemplos de integración",
+        "Uso de preguntas inteligentes",
+        "Uso de consultas por colección"
+      ],
+      cta: "Comenzar ahora",
+      popular: true
+    },
+    {
+      name: "Empresarial",
+      price: { monthly: 50 },
+      description: "Perfecto para equipos y empresas",
+      features: [
+        "Hasta 500 consultas diarias",
+        "Sin límites de API Keys",
+        "Bases de datos SQL y NoSQL",
+        "Ejemplos de integración",
+        "Uso de preguntas inteligentes",
+        "Uso de consultas por colección"
+      ],
+      cta: "Comenzar ahora",
+      popular: false
+    }
+  ]
+};
+---
+
+<Layout title="Precios | Etedata">
+  <main class="py-20">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+          Planes flexibles para cada necesidad
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-gray-600">
+          Elige el plan que mejor se adapte a tus necesidades. Todos los planes incluyen una prueba gratuita de 14 días.
+        </p>
+      </div>
+
+      <div class="mt-16">
+        <h2 class="text-2xl font-bold mb-8">Para particulares y freelancers</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          {plans.personal.map((plan) => (
+            <div class={`relative rounded-2xl bg-white p-8 shadow-sm ring-1 ring-gray-200 ${plan.popular ? "ring-2 ring-blue-500" : ""}`}>
+              {plan.popular && (
+                <span class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-sm px-3 py-1 rounded-full">
+                  Más popular
+                </span>
+              )}
+              <h3 class="text-xl font-semibold leading-7">{plan.name}</h3>
+              <p class="mt-2 text-base text-gray-600">{plan.description}</p>
+              <div class="mt-6">
+                <div class="flex items-baseline">
+                  <span class="text-4xl font-bold tracking-tight price-amount">
+                    {typeof plan.price.monthly === "number" ? "€" : ""}
+                    <span class="price-value">
+                      {plan.price.monthly}
+                    </span>
+                  </span>
+                  {typeof plan.price.monthly === "number" && (
+                    <span class="text-sm font-semibold text-gray-600 ml-1">
+                      /mes
+                    </span>
+                  )}
+                </div>
+              </div>
+              <ul class="mt-8 space-y-3">
+                {plan.features.map((feature) => (
+                  <li class="flex gap-x-3">
+                    <Icon name="heroicons:check-circle" class="h-6 w-6 flex-none text-blue-500" />
+                    <span class="text-sm text-gray-600">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#"
+                class={`mt-8 block rounded-lg px-6 py-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 
+                ${plan.popular 
+                  ? "bg-blue-500 text-white hover:bg-blue-600 focus-visible:outline-blue-600" 
+                  : "bg-gray-50 text-gray-700 hover:bg-gray-100 focus-visible:outline-gray-600"}`}
+              >
+                {plan.cta}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-20 text-center">
+        <h2 class="text-2xl font-bold mb-4">¿Necesitas un plan personalizado?</h2>
+        <p class="text-gray-600 mb-8">
+          Contacta con nuestro equipo de ventas para diseñar una solución que se ajuste a tus necesidades específicas.
+        </p>
+        <a
+          href="#"
+          class="inline-flex items-center rounded-lg bg-blue-500 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+        >
+          Contactar con ventas
+          <Icon name="heroicons:arrow-right" class="ml-2 h-5 w-5" />
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>

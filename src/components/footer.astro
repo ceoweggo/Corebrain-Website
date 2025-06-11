@@ -1,0 +1,128 @@
+---
+import Link from "./ui/link.astro";
+import { Icon } from "astro-icon/components";
+
+const footerLinks = [
+  {
+    title: "Producto",
+    links: [
+      { text: "Documentación", href: "/docs" },
+      { text: "Descargas", href: "/downloads" },
+      { text: "Foro", href: "/forum" },
+    ],
+  },
+  {
+    title: "Empresa",
+    links: [
+      { text: "Carreras", href: "/careers" },
+      { text: "Seguridad", href: "/security" },
+      { text: "Privacidad", href: "/privacy" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { text: "Términos", href: "/terms" },
+      { text: "Changelog", href: "/changelog" },
+    ],
+  },
+];
+
+const socialLinks = [
+  { name: "GitHub", href: "https://github.com/Etedata", icon: "bx:bxl-github" },
+  { name: "Twitter", href: "https://twitter.com/Etedata", icon: "bx:bxl-twitter" },
+  { name: "LinkedIn", href: "https://linkedin.com/company/Etedata", icon: "bx:bxl-linkedin" },
+];
+---
+
+<footer class="mt-24 bg-gradient-to-b from-gray-50 to-white border-t border-gray-100 dark:from-gray-900 dark:to-gray-800 dark:border-gray-800">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="flex flex-col md:flex-row justify-between">
+      <div class="mb-8 md:mb-0">
+        <a href="/" class="text-lg mb-4 block">
+          <span class="font-bold text-slate-800 dark:text-white">Ete</span><span class="text-slate-500 dark:text-slate-400">data</span>
+        </a>
+        <p class=" text-sm text-gray-500 dark:text-gray-400">© {new Date().getFullYear()} Etedata. Todos los derechos reservados.</p>
+        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Marca respaldada por <a href="#">Globodain Technology Corporation</a>.</p>
+
+        <div class="flex space-x-4 mt-4">
+          {socialLinks.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">
+              <Icon name={link.icon} class="w-5 h-5" />
+              <span class="sr-only">{link.name}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
+        {footerLinks.map((section) => (
+          <div>
+            <h3 class="text-sm font-medium text-gray-900 dark:text-white mb-3">{section.title}</h3>
+            <ul class="space-y-2">
+              {section.links.map((link) => (
+                <li>
+                  <a href={link.href} class="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:underline">
+                    {link.text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-8 md:mt-0 flex flex-col items-end">
+        <div class="flex items-center space-x-2">
+          <button
+            id="theme-toggle"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-gray-200 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 dark:border-gray-700">
+            <Icon name="heroicons:computer-desktop" class="w-4 h-4 mr-2" />
+            <Icon name="heroicons:sun" class="w-4 h-4 dark:hidden" />
+            <Icon name="heroicons:moon" class="w-4 h-4 hidden dark:block" />
+          </button>
+        </div>
+        <div class="mt-4">
+          <select
+            id="language-select"
+            class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background border border-gray-200 h-9 px-4 py-2 bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  import { getTheme, setTheme, toggleTheme } from '../utils/theme';
+  import { getLanguage, setLanguage } from '../utils/language';
+
+  // Configuración inicial del tema
+  const initialTheme = getTheme();
+  setTheme(initialTheme);
+
+  // Configuración inicial del idioma
+  const initialLanguage = getLanguage();
+  const languageSelect = document.getElementById('language-select') as HTMLSelectElement;
+  if (languageSelect) {
+    languageSelect.value = initialLanguage;
+    languageSelect.addEventListener('change', (e) => {
+      const newLang = (e.target as HTMLSelectElement).value as 'es' | 'en';
+      setLanguage(newLang);
+    });
+  }
+
+  // Manejador del botón de tema
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      toggleTheme();
+    });
+  }
+</script>
