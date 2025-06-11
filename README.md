@@ -1,23 +1,24 @@
-# Astroship - Astro SAAS Starter Website Template
+# Corebrain Website V1
 
-Astroship is a free starter astro website template for saas, startups, marketing websites, landing pages & blogs. Built with Astro & TailwindCSS.
+In this first version of the platform, the backbone of Etedata is based on Corebrain. A business intelligence tool for programmers that allows to manage database connections directly from the code and perform advanced queries with the use of AI.
 
-This Free Template is sponsored by [Web3Templates](https://web3templates.com)
+You can apply information in the [Corebrain SDK repository](https://github.com/ceoweggo/Corebrain).
 
-## Live Demo
+## Live
 
-**[https://astroship.web3templates.com/](https://astroship.web3templates.com/)**
+**[https://etedata.com/](https://etedata.com/)**
 
-**[Download Astroship Template](https://web3templates.com/templates/astroship-starter-website-template-for-astro)**
+**[Install Corebrain SDK](https://https://pypi.org/project/corebrain/)**
 
-## Upgrade to Astroship Pro Version
+## Etedata Panel
 
-**[https://astroship-pro.web3templates.com/](https://astroship-pro.web3templates.com/)**
+**[https://panel.etedata.com/](https://panel.etedata.com)**
 
-**[Purchase Astroship Pro — $49](https://web3templates.com/templates/astroship-pro-astro-saas-website-template)**
+Authentication both in the Corebrain panel and through the SDK is focused and centralized in Globodain SSO.
 
 
-<!-- prettier-ignore -->
+
+<!-- prettier-ignore 
 | Feature | Free Version | Pro Version |
 | --- | ------ | --- |
 | Astro v3 | ✅  | ✅ |
@@ -294,3 +295,4 @@ La implementación actual utiliza una gestión de sesiones en memoria, lo que es
 - Se utiliza `SameSite=Lax` para proteger contra ataques CSRF
 - En producción, las cookies tienen la bandera `Secure` para forzar HTTPS
 - Los tokens y secretos nunca se exponen al cliente
+-->
