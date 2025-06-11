@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { KeyboardEvent } from 'react';
 import { 
   Card, 
@@ -37,6 +37,7 @@ import {
   User,
   Settings 
 } from 'lucide-react';
+import { getLanguage, getTranslation } from '../utils/language';
 
 type Message = {
   id: string;
@@ -58,29 +59,29 @@ export const ChatInterface = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      content: '¡Hola! Soy tu asistente. ¿En qué puedo ayudarte hoy?',
+      content: getTranslation('chat.welcome'),
       sender: 'bot',
       timestamp: new Date(),
       options: [
         {
           id: 'report-sales',
-          label: 'Informe de ventas',
+          label: getTranslation('chat.options.sales'),
           icon: <BarChart className="h-4 w-4" />,
-          description: 'Ver informe detallado de ventas',
+          description: getTranslation('chat.options.sales'),
           action: () => handleReportSelection('sales'),
         },
         {
           id: 'report-users',
-          label: 'Análisis de usuarios',
+          label: getTranslation('chat.options.users'),
           icon: <User className="h-4 w-4" />,
-          description: 'Estadísticas de usuarios',
+          description: getTranslation('chat.options.users'),
           action: () => handleReportSelection('users'),
         },
         {
           id: 'report-database',
-          label: 'Estado de la base de datos',
+          label: getTranslation('chat.options.database'),
           icon: <Database className="h-4 w-4" />,
-          description: 'Consultar estado actual de la base de datos',
+          description: getTranslation('chat.options.database'),
           action: () => handleReportSelection('database'),
         }
       ]
@@ -236,10 +237,10 @@ export const ChatInterface = () => {
   };
   
   const predefinedQueries = [
-    { value: 'sales-report', label: 'Informe de ventas mensual' },
-    { value: 'user-growth', label: 'Crecimiento de usuarios' },
-    { value: 'inventory-status', label: 'Estado de inventario' },
-    { value: 'performance', label: 'Rendimiento del sistema' },
+    { value: 'sales-report', label: getTranslation('chat.predefined.sales') },
+    { value: 'user-growth', label: getTranslation('chat.predefined.users') },
+    { value: 'inventory-status', label: getTranslation('chat.predefined.inventory') },
+    { value: 'performance', label: getTranslation('chat.predefined.performance') },
   ];
   
   const handlePredefinedQuery = (value: string) => {
@@ -259,13 +260,50 @@ export const ChatInterface = () => {
     }
   };
   
+  useEffect(() => {
+    // Update messages when language changes
+    document.addEventListener('languageChanged', () => {
+      setMessages([
+        {
+          id: '1',
+          content: getTranslation('chat.welcome'),
+          sender: 'bot',
+          timestamp: new Date(),
+          options: [
+            {
+              id: 'report-sales',
+              label: getTranslation('chat.options.sales'),
+              icon: <BarChart className="h-4 w-4" />,
+              description: getTranslation('chat.options.sales'),
+              action: () => handleReportSelection('sales'),
+            },
+            {
+              id: 'report-users',
+              label: getTranslation('chat.options.users'),
+              icon: <User className="h-4 w-4" />,
+              description: getTranslation('chat.options.users'),
+              action: () => handleReportSelection('users'),
+            },
+            {
+              id: 'report-database',
+              label: getTranslation('chat.options.database'),
+              icon: <Database className="h-4 w-4" />,
+              description: getTranslation('chat.options.database'),
+              action: () => handleReportSelection('database'),
+            }
+          ]
+        }
+      ]);
+    });
+  }, []);
+  
   return (
     <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto">
       <CardHeader className="border-b p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <MessageSquare className="h-5 w-5 text-primary" />
-            <CardTitle className="text-lg">Asistente Inteligente</CardTitle>
+            <CardTitle className="text-lg">{getTranslation('chat.title')}</CardTitle>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -274,9 +312,9 @@ export const ChatInterface = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>Limpiar conversación</DropdownMenuItem>
-              <DropdownMenuItem>Cambiar modelo</DropdownMenuItem>
-              <DropdownMenuItem>Exportar chat</DropdownMenuItem>
+              <DropdownMenuItem>{getTranslation('chat.menu.clear')}</DropdownMenuItem>
+              <DropdownMenuItem>{getTranslation('chat.menu.model')}</DropdownMenuItem>
+              <DropdownMenuItem>{getTranslation('chat.menu.export')}</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -301,7 +339,7 @@ export const ChatInterface = () => {
                   
                   {message.options && message.options.length > 0 && (
                     <div className="pt-2 space-y-2">
-                      <p className="text-xs font-medium">Opciones disponibles:</p>
+                      <p className="text-xs font-medium">{getTranslation('chat.options.available')}:</p>
                       <div className="flex flex-wrap gap-2">
                         {message.options.map(option => (
                           <Button 
@@ -328,7 +366,7 @@ export const ChatInterface = () => {
       <CardFooter className="p-4 border-t">
         <div className="flex items-center space-x-2 w-full">
           <Select onValueChange={handlePredefinedQuery}>
-            <SelectTrigger className="w-auto" aria-label="Seleccionar consulta predefinida">
+            <SelectTrigger className="w-auto" aria-label={getTranslation('chat.select.predefined')}>
               <ChevronDown className="h-4 w-4" />
             </SelectTrigger>
             <SelectContent>
@@ -344,7 +382,7 @@ export const ChatInterface = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Escribe un mensaje o selecciona una opción..."
+            placeholder={getTranslation('chat.input.placeholder')}
             className="flex-1"
           />
           

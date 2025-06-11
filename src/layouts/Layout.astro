@@ -6,6 +6,8 @@ import "@fontsource-variable/inter";
 import '@fontsource/bricolage-grotesque';
 import { getTheme } from "../utils/theme";
 import "../styles/global.css";
+import { ViewTransitions } from "astro:transitions";
+import { getLanguage } from "../utils/language";
 
 export interface Props {
   title?: string;
@@ -32,17 +34,18 @@ const makeTitle = title
   ? title + " | " + "Etedata"
   : "Etedata - Análisis Inteligente de Datos NoSQL";
 
-// Obtener el tema inicial del servidor
-const initialTheme = getTheme();
+const currentLang = getLanguage();
 ---
 
 <!DOCTYPE html>
-<html lang="es" class:list={[initialTheme === 'dark' ? 'dark' : '']}>
+<html lang={currentLang} class:list={[getTheme() === 'dark' ? 'dark' : '']}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ViewTransitions />
 
     <!-- <link rel="preload" as="image" href={src} alt="Hero" /> -->
     <SEO
@@ -72,7 +75,9 @@ const initialTheme = getTheme();
   </head>
   <body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased">
     <Navbar />
-    <slot />
+    <main class="mx-auto max-w-7xl px-4 sm:px-6">
+      <slot />
+    </main>
     <Footer />
     <style is:global>
       /* Improve Page speed */
@@ -80,14 +85,42 @@ const initialTheme = getTheme();
       img {
         content-visibility: auto;
       }
+
+      :root {
+        --accent: 136, 58, 234;
+        --accent-light: 224, 204, 250;
+        --accent-dark: 49, 10, 101;
+        --accent-gradient: linear-gradient(
+          45deg,
+          rgb(var(--accent)),
+          rgb(var(--accent-light)) 30%,
+          white 60%
+        );
+      }
+      
+      .dark {
+        color-scheme: dark;
+      }
     </style>
   </body>
 </html>
 
 <script>
   import { getTheme, setTheme } from '../utils/theme';
+  import { getLanguage, updateTranslations } from "../utils/language";
   
-  // Aplicar el tema inicial
-  const theme = getTheme();
-  setTheme(theme);
+  // Initialize when document loads
+  document.addEventListener("DOMContentLoaded", () => {
+    // Initial theme setup
+    const initialTheme = getTheme();
+    setTheme(initialTheme);
+
+    // Initial language setup
+    updateTranslations();
+  });
+
+  // Listen for language changes
+  document.addEventListener("languageChanged", () => {
+    updateTranslations();
+  });
 </script>

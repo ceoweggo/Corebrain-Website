@@ -1,12 +1,17 @@
 ---
 import { Dropdown as DropdownContainer, DropdownItems } from "astro-navbar";
+import { getLanguage, getTranslation } from "../../utils/language";
+
 const { title, lastItem, children } = Astro.props;
+const currentLang = getLanguage();
 ---
 
 <li class="relative">
   <DropdownContainer class="group">
     <button
-      class="flex items-center gap-1 w-full lg:w-auto lg:px-3 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+      class="flex items-center gap-1 w-full lg:w-auto lg:px-3 py-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+      aria-label={getTranslation('aria.expandMore')}
+    >
       <span>{title}</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +19,8 @@ const { title, lastItem, children } = Astro.props;
         viewBox="0 0 24 24"
         stroke-width="3"
         stroke="currentColor"
-        class="w-3 h-3 mt-0.5 group-open:rotate-180">
+        class="w-3 h-3 mt-0.5 group-open:rotate-180"
+        aria-hidden="true">
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -35,7 +41,9 @@ const { title, lastItem, children } = Astro.props;
             children.map((item) => (
               <a
                 href={item.path}
-                class="py-1 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+                class="py-1 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                data-i18n={item.titleKey}
+              >
                 {item.title}
               </a>
             ))
@@ -45,3 +53,15 @@ const { title, lastItem, children } = Astro.props;
     </DropdownItems>
   </DropdownContainer>
 </li>
+
+<script>
+  import { updateTranslations } from '../../utils/language';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateTranslations();
+  });
+
+  document.addEventListener('languageChanged', () => {
+    updateTranslations();
+  });
+</script>

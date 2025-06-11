@@ -2,50 +2,81 @@
 // @ts-ignore
 import { Icon } from "astro-icon/components";
 import Link from "./ui/link.astro";
+import { getLanguage, getTranslation } from "../utils/language";
+
+// Get initial translations for SSR
+const defaultLang = 'es';
+const translations = {
+  title: getTranslation('integration.title', defaultLang),
+  subtitle: getTranslation('integration.subtitle', defaultLang),
+  viewDocs: getTranslation('integration.viewDocs', defaultLang),
+  steps: Array.from({ length: 4 }, (_, i) => ({
+    title: getTranslation(`integration.steps.${i}.title`, defaultLang),
+    description: getTranslation(`integration.steps.${i}.description`, defaultLang)
+  }))
+};
 
 const steps = [
   {
-    title: "Registro en la aplicación",
-    description: "Crea tu cuenta en Etedata y accede a tu panel de control personalizado para gestionar tu integración.",
     icon: "bx:bxs-user-plus",
     color: "bg-blue-100",
     borderColor: "border-blue-200"
   },
   {
-    title: "Descarga e instala el SDK",
-    description: "Personaliza la configuración de tu SDK según las necesidades específicas de tu negocio y tus bases de datos NoSQL.",
     icon: "bx:bxs-download",
     color: "bg-purple-100",
     borderColor: "border-green-200",
-    code: "// Configuración del SDK\nawait Etedata.configure({\n  database: \"mongodb\",\n  connectionString: \"mongodb://...\",\n  options: {\n    analytics: true,\n    autoSync: true\n  }\n});"
+    code: {
+      python: "# Instalar el SDK de Corebrain\npip install corebrain",
+      csharp: "// Instalar el SDK de Corebrain\ndotnet add package Corebrain.SDK"
+    }
   },
   {
-    title: "Configúralo e impleméntalo",
-    description: "Integra el SDK de Etedata en tu infraestructura existente con nuestra documentación paso a paso y soporte técnico.",
     icon: "bx:bxs-cog",
     color: "bg-green-100",
     borderColor: "border-purple-200",
-    code: "// Instalación del SDK\nimport { EtedataSDK } from \"@Etedata/sdk\";\n\nnpm install @Etedata/sdk"
+    code: {
+      python: "# Importar e inicializar el SDK\nfrom corebrain import init\n\n# Inicializar el SDK con API key y configuration ID\ncorebrain = init(\n    api_key='your_api_key',\n    config_id='your_config_id'\n)\n\n# Realizar consultas en lenguaje natural\nresult = corebrain.ask('Tu pregunta en lenguaje natural')\nprint(result['explanation'])",
+      csharp: "// Importar e inicializar el SDK\nusing Corebrain;\n\n// Inicializar el SDK\nvar corebrain = new CorebrainClient(\n    apiKey: \"your_api_key\",\n    configId: \"your_config_id\"\n);\n\n// Realizar consultas en lenguaje natural\nvar result = await corebrain.Ask(\"Tu pregunta en lenguaje natural\");\nConsole.WriteLine(result.Explanation);"
+    }
   },
   {
-    title: "Aplica el iframe en tu front-end (opcional)",
-    description: "Añade el iframe de Etedata a tu aplicación para visualizar los análisis y dashboards en tiempo real.",
     icon: "bx:bxs-window-alt",
     color: "bg-yellow-100",
     borderColor: "border-yellow-200",
-    code: "// Implementación del iframe\n<iframe\n  src=\"https://app.Etedata.ai/dashboard\"\n  width=\"100%\"\n  height=\"600px\"\n  frameborder=\"0\"\n></iframe>"
+    code: {
+      python: "# Ejemplo de visualización de resultados\nresult = corebrain.ask('Muestra las ventas del último mes')\n\n# Acceder a los datos y gráficos\nfor chart in result['charts']:\n    print(f'Título: {chart[\"title\"]}')\n    print(f'Datos: {chart[\"data\"]}')\n    \n# Usar matplotlib para visualización (opcional)\nimport matplotlib.pyplot as plt\n\nfor chart in result['charts']:\n    plt.figure(figsize=(10, 6))\n    plt.plot(chart['data'])\n    plt.title(chart['title'])\n    plt.show()",
+      csharp: "// Ejemplo de visualización de resultados\nvar response = await corebrain.Ask(\"Muestra las ventas del último mes\");\n\n// Acceder a los datos y gráficos\nforeach (var chart in response.Charts)\n{\n    Console.WriteLine($\"Título: {chart.Title}\");\n    Console.WriteLine($\"Datos: {chart.Data}\");\n}\n\n// Integración con Windows Forms o WPF\npublic partial class DashboardForm : Form\n{\n    private async Task UpdateCharts()\n    {\n        var result = await corebrain.Ask(\"Análisis de ventas\");\n        foreach (var chart in result.Charts)\n        {\n            // Crear y actualizar controles de gráficos\n            var chartControl = new ChartControl();\n            chartControl.LoadData(chart.Data);\n            this.Controls.Add(chartControl);\n        }\n    }\n}"
+    }
   }
+];
+
+const languages = [
+  { id: 'python', name: 'Python', icon: 'bx:bxl-python' },
+  { id: 'csharp', name: 'C#', icon: 'bx:bxl-c-plus-plus' }
 ];
 ---
 
 <div class="mt-24 bg-gradient-to-b from-slate-50 to-white py-16 rounded-2xl shadow-sm">
   <div class="max-w-6xl mx-auto px-4">
-    <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center">
-      Implementación en 4 pasos
+    <h2 class="text-4xl lg:text-5xl font-bold lg:tracking-tight text-center" data-i18n="integration.title">
+      {translations.title}
     </h2>
-    <p class="text-lg mt-4 text-slate-600 text-center max-w-3xl mx-auto">
-      Comienza a utilizar Etedata en tu negocio con un proceso de integración sencillo y guiado.
+    <p class="text-lg mt-4 text-slate-600 text-center max-w-3xl mx-auto" data-i18n="integration.subtitle">
+      {translations.subtitle}
     </p>
+
+    <!-- Programming Language Selector -->
+    <div class="flex justify-center mt-8 space-x-4">
+      {languages.map((lang) => (
+        <button
+          class="language-btn px-4 py-2 rounded-lg flex items-center space-x-2 bg-white border-2 border-gray-200 hover:border-indigo-500 transition-colors"
+          data-lang={lang.id}>
+          <Icon name={lang.icon} class="w-5 h-5" />
+          <span>{lang.name}</span>
+        </button>
+      ))}
+    </div>
 
     <div class="mt-16">
       {
@@ -58,14 +89,24 @@ const steps = [
               <div class="flex-1">
                 <div class="flex items-center mb-2">
                   <span class="text-3xl font-bold text-gray-800 mr-3">{index + 1}</span>
-                  <h3 class="font-bold text-xl text-gray-800">{item.title}</h3>
+                  <h3 class="font-bold text-xl text-gray-800" data-i18n={`integration.steps.${index}.title`}>
+                    {translations.steps[index].title}
+                  </h3>
                 </div>
-                <p class="text-slate-600 mb-4">{item.description}</p>
-                {item.code ? (
-                  <div class="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                    <pre class="text-sm font-mono text-white"><code>{item.code}</code></pre>
+                <p class="text-slate-600 mb-4" data-i18n={`integration.steps.${index}.description`}>
+                  {translations.steps[index].description}
+                </p>
+                {item.code && (
+                  <div class="relative">
+                    {Object.entries(item.code || {}).map(([lang, code]) => (
+                      <div
+                        class={`code-block bg-gray-900 rounded-lg p-4 overflow-x-auto ${lang}`}
+                        data-lang={lang}>
+                        <pre class="text-sm font-mono text-white"><code>{code}</code></pre>
+                      </div>
+                    ))}
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
             {index < steps.length - 1 && (
@@ -80,9 +121,62 @@ const steps = [
 
     <div class="text-center mt-16">
       <a href="/docs" class="inline-flex items-center justify-center px-8 py-4 text-lg font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg">
-        Ver documentación completa
+        <span data-i18n="integration.viewDocs">{translations.viewDocs}</span>
         <Icon class="ml-2 w-5 h-5" name="bx:bx-right-arrow-alt" />
       </a>
     </div>
   </div>
-</div> 
+</div>
+
+<style>
+  .code-block {
+    display: none;
+  }
+  .code-block.python {
+    display: block;
+  }
+  .language-btn[data-lang="python"] {
+    background-color: #4B8BBE;
+    color: white;
+    border-color: #4B8BBE;
+  }
+</style>
+
+<script>
+  import { getLanguage, getTranslation, updateTranslations } from '../utils/language';
+
+  function initializeCodeBlocks() {
+    const languageButtons = document.querySelectorAll('.language-btn');
+    const codeBlocks = document.querySelectorAll('.code-block');
+
+    languageButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const lang = button.getAttribute('data-lang');
+        
+        languageButtons.forEach(btn => {
+          btn.style.backgroundColor = 'white';
+          btn.style.color = 'black';
+          btn.style.borderColor = '#e5e7eb';
+        });
+        button.style.backgroundColor = lang === 'python' ? '#4B8BBE' : '#178600';
+        button.style.color = 'white';
+        button.style.borderColor = lang === 'python' ? '#4B8BBE' : '#178600';
+
+        codeBlocks.forEach(block => {
+          block.style.display = block.getAttribute('data-lang') === lang ? 'block' : 'none';
+        });
+      });
+    });
+  }
+
+  // Initialize when document loads
+  document.addEventListener('DOMContentLoaded', () => {
+    initializeCodeBlocks();
+    updateTranslations();
+  });
+
+  // Update translations when language changes
+  document.addEventListener('languageChanged', () => {
+    updateTranslations();
+  });
+</script> 

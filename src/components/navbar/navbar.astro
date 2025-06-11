@@ -3,29 +3,24 @@ import Container from "@components/container.astro";
 import Link from "@components/ui/link.astro";
 import Dropdown from "./dropdown.astro";
 import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
+import { getLanguage, getTranslation } from "../../utils/language";
+
+const currentLang = getLanguage();
 
 const menuitems = [
   {
-    title: "Documentación",
+    title: getTranslation('nav.docs'),
     path: "/docs",
     children: [
-      { title: "API Docs", path: "/docs/api" },
-      { title: "SDK", path: "/docs/sdk" },
-      { title: "Plataforma del usuario", path: "/docs/platform" },
+      { title: getTranslation('nav.docs.api'), path: "/docs/api" },
+      { title: getTranslation('nav.docs.sdk'), path: "/docs/sdk" },
+      { title: getTranslation('nav.docs.platform'), path: "/docs/platform" },
     ],
   },
   {
-    title: "Casos de uso",
-    path: "/casos-de-uso",
-  },
-  {
-    title: "Precios",
+    title: getTranslation('nav.pricing'),
     path: "/pricing",
-  },
-  {
-    title: "Sobre nosotros",
-    path: "/about",
-  },
+  }
 ];
 ---
 
@@ -34,7 +29,6 @@ const menuitems = [
     <Astronav>
       <div class="flex w-full lg:w-auto items-center justify-between">
         <a href="/" class="text-xl flex items-center">
-          <img src="/isotipo.svg" alt="Etedata logo" class="w-8 h-8" />
           <span class="font-bold text-slate-800 dark:text-white">Ete</span><span class="text-slate-500 dark:text-slate-400">data</span>
         </a>
         <div class="block lg:hidden">
@@ -67,13 +61,13 @@ const menuitems = [
           }
         </ul>
         <div class="lg:hidden flex items-center mt-3 gap-4">
-          <Link href="http://localhost:8080" style="muted" block size="md">Conectarme</Link>
+          <Link href="http://localhost:8080" style="muted" block size="md">{getTranslation('nav.connect')}</Link>
         </div>
       </MenuItems>
     </Astronav>
     <div>
       <div class="hidden lg:flex items-center gap-4">
-        <Link href="http://localhost:8080" size="md" style="primary" class="dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">Conectarme</Link>
+        <Link href="http://localhost:8080" size="md" style="primary" class="dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100">{getTranslation('nav.connect')}</Link>
       </div>
     </div>
   </header>

@@ -1,45 +1,80 @@
 ---
 import { Tick } from "@components/ui/icons";
 import Link from "@components/ui/link.astro";
+import { getLanguage, getTranslation } from "../utils/language";
 
 const { plan } = Astro.props;
+const currentLang = getLanguage();
 ---
 
 <div>
   <div
     class="flex flex-col w-full order-first lg:order-none border-2 border-[#D8DEE9] border-opacity-50 py-5 px-6 rounded-md">
     <div class="text-center">
-      <h4 class="text-lg font-medium text-gray-400">{plan.name}</h4><p
-        class="mt-3 text-4xl font-bold text-black md:text-4xl">
+      <h4 class="text-lg font-medium text-gray-400" data-i18n={`pricing.plan.${plan.name.toLowerCase()}`}>
+        {getTranslation(`pricing.plan.${plan.name.toLowerCase()}`)}
+      </h4>
+      <p class="mt-3 text-4xl font-bold text-black md:text-4xl">
         {
           plan.price && typeof plan.price === "object"
             ? plan.price.monthly
             : plan.price
         }
       </p>
-      <!-- {
-        plan.price.original && (
-          <p class="mt-1 text-xl font-medium text-gray-400 line-through md:text-2xl">
-            {plan.price.original}
-          </p>
-        )
-      } -->
-    </div><ul class="grid mt-8 text-left gap-y-4">
+      {plan.period && (
+        <p class="mt-1 text-sm text-gray-600" data-i18n={`pricing.period.${plan.period}`}>
+          {getTranslation(`pricing.period.${plan.period}`)}
+        </p>
+      )}
+      {plan.save && (
+        <p class="mt-1 text-sm text-green-600" data-i18n="pricing.period.save">
+          {getTranslation('pricing.period.save')}
+        </p>
+      )}
+    </div>
+    <ul class="grid mt-8 text-left gap-y-4">
       {
         plan.features.map((item) => (
           <li class="flex items-start gap-3 text-gray-800">
             <Tick class="w-6 h-6" />
-            <span>{item}</span>
+            <span data-i18n={`pricing.feature.${item.toLowerCase().replace(/\s+/g, '')}`}>
+              {getTranslation(`pricing.feature.${item.toLowerCase().replace(/\s+/g, '')}`)}
+            </span>
           </li>
         ))
       }
-    </ul><div class="flex mt-8">
+    </ul>
+    <div class="flex mt-8">
       <Link
         href={plan.button.link || "#"}
         block
-        style={plan.popular ? "primary" : "outline"}>
-        {plan.button.text || "Get Started"}
+        style={plan.popular ? "primary" : "outline"}
+        data-i18n={`pricing.cta.${plan.button.type || 'start'}`}
+      >
+        {getTranslation(`pricing.cta.${plan.button.type || 'start'}`)}
       </Link>
     </div>
+    {plan.disclaimer && (
+      <p class="mt-4 text-sm text-gray-500 text-center" data-i18n="pricing.disclaimer">
+        {getTranslation('pricing.disclaimer')}
+      </p>
+    )}
+    {plan.guarantee && (
+      <p class="mt-2 text-sm text-gray-500 text-center" data-i18n="pricing.guarantee">
+        {getTranslation('pricing.guarantee')}
+      </p>
+    )}
   </div>
 </div>
+
+<script>
+  import { updateTranslations } from '../utils/language';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateTranslations();
+  });
+
+  document.addEventListener('languageChanged', () => {
+    updateTranslations();
+  });
+</script>

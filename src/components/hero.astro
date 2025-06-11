@@ -3,18 +3,20 @@ import { Picture } from "astro:assets";
 import Link from "../components/ui/link.astro";
 import { Icon } from "astro-icon/components";
 import { ChatInterface } from './ChatInterfaceHero';
+import { getLanguage, getTranslation } from "../utils/language";
+
+const currentLang = getLanguage();
 ---
 
 <main class="">
   <!-- Hero Section -->
   <div class="grid lg:grid-cols-2 gap-8 pt-16 pb-8 md:pt-12 md:pb-16">
     <div class="flex flex-col justify-center">
-      <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold lg:tracking-tight xl:tracking-tighter">
-        Consigue reportes de datos en tiempo real
+      <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold lg:tracking-tight xl:tracking-tighter" data-i18n="hero.title">
+        {getTranslation('hero.title')}
       </h1>
-      <p class="text-lg mt-4 text-slate-600 max-w-xl">
-        Transforma tus datos NoSQL directamente desde la base de datos en conocimiento accionable con nuestro SDK de IA. 
-        Realiza <b>consultas en lenguaje natural</b> y genera informes automáticos.
+      <p class="text-lg mt-4 text-slate-600 max-w-xl" data-i18n="hero.description">
+        {getTranslation('hero.description')}
       </p>
       <div class="mt-6 flex flex-col sm:flex-row gap-3">
         <Link
@@ -22,7 +24,7 @@ import { ChatInterface } from './ChatInterfaceHero';
           class="flex gap-1 items-center justify-center"
           rel="noopener">
           <Icon class="text-white w-5 h-5 me-1" name="bx:bxs-rocket" />
-           Comenzar ahora
+          <span data-i18n="hero.cta.start">{getTranslation('hero.cta.start')}</span>
         </Link>
         <Link
           size="lg"
@@ -31,7 +33,7 @@ import { ChatInterface } from './ChatInterfaceHero';
           href="/about"
           class="flex gap-1 items-center justify-center">
           <Icon class="text-black w-5 h-5 me-1" name="bx:bxs-message-square-dots" />
-          Solicitar una demo
+          <span data-i18n="hero.cta.talk">{getTranslation('hero.cta.talk')}</span>
         </Link>
       </div>
     </div>
@@ -46,7 +48,9 @@ import { ChatInterface } from './ChatInterfaceHero';
   
   <!-- Chat interface in mobile (below hero) -->
   <div class="md:hidden py-8">
-    <h2 class="text-2xl font-bold mb-4 text-center">Asistente Inteligente</h2>
+    <h2 class="text-2xl font-bold mb-4 text-center" data-i18n="hero.mobile.title">
+      {getTranslation('hero.mobile.title')}
+    </h2>
     <div class="w-full shadow-lg rounded-lg overflow-hidden">
       <ChatInterface client:load />
     </div>

@@ -1,0 +1,130 @@
+import { Icon } from "astro-icon/components";
+import { getLanguage, getTranslation } from "../utils/language";
+
+const currentLang = getLanguage();
+
+const menuitems = [
+  {
+    title: getTranslation('nav.home'),
+    path: "/",
+  },
+  {
+    title: getTranslation('nav.about'),
+    path: "/about",
+  },
+  {
+    title: getTranslation('nav.pricing'),
+    path: "/pricing",
+  },
+  {
+    title: getTranslation('nav.blog'),
+    path: "/blog",
+  },
+  {
+    title: getTranslation('nav.contact'),
+    path: "/contact",
+  },
+];
+
+<nav class="relative border-b border-slate-100 dark:border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
+      <div class="flex justify-start lg:w-0 lg:flex-1">
+        <a href="/" class="flex items-center">
+          <span class="sr-only">Etedata</span>
+          <span class="text-2xl font-bold text-indigo-600">Ete</span><span class="text-2xl text-slate-600">data</span>
+        </a>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center space-x-8">
+        {menuitems.map((item) => (
+          <a
+            href={item.path}
+            class="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+            {item.title}
+          </a>
+        ))}
+      </div>
+
+      <!-- Language and Theme Toggles -->
+      <div class="flex items-center space-x-4">
+        <!-- Language Toggle -->
+        <button
+          id="language-toggle"
+          class="relative inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
+          data-current-lang={currentLang}>
+          <span class="es-text" class:list={[{ hidden: currentLang === 'en' }]}>ES</span>
+          <span class="en-text" class:list={[{ hidden: currentLang === 'es' }]}>EN</span>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button
+          id="theme-toggle"
+          class="relative inline-flex items-center p-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700">
+          <Icon name="bx:bx-sun" class="w-5 h-5 sun-icon" />
+          <Icon name="bx:bx-moon" class="w-5 h-5 moon-icon hidden" />
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  import { getTheme, setTheme, toggleTheme } from '../utils/theme';
+  import { getLanguage, setLanguage, updateTranslations } from '../utils/language';
+
+  function initializeLanguageUI() {
+    const currentLang = getLanguage();
+    const languageToggle = document.getElementById('language-toggle');
+    const esText = languageToggle?.querySelector('.es-text');
+    const enText = languageToggle?.querySelector('.en-text');
+
+    if (currentLang === 'en') {
+      esText?.classList.add('hidden');
+      enText?.classList.remove('hidden');
+      languageToggle?.setAttribute('data-current-lang', 'en');
+    } else {
+      esText?.classList.remove('hidden');
+      enText?.classList.add('hidden');
+      languageToggle?.setAttribute('data-current-lang', 'es');
+    }
+  }
+
+  function toggleLanguage() {
+    const currentLang = getLanguage();
+    const newLang = currentLang === 'es' ? 'en' : 'es';
+    setLanguage(newLang);
+    initializeLanguageUI();
+    updateTranslations();
+  }
+
+  // Initialize when document loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initial theme setup
+    const initialTheme = getTheme();
+    setTheme(initialTheme);
+
+    // Initial language setup
+    initializeLanguageUI();
+    updateTranslations();
+
+    // Language toggle handler
+    const languageToggle = document.getElementById('language-toggle');
+    if (languageToggle) {
+      languageToggle.addEventListener('click', toggleLanguage);
+    }
+
+    // Theme toggle handler
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+      themeToggle.addEventListener('click', toggleTheme);
+    }
+  });
+
+  // Listen for language changes
+  document.addEventListener('languageChanged', () => {
+    updateTranslations();
+    initializeLanguageUI();
+  });
+</script> 

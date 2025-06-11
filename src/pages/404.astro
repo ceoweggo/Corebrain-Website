@@ -1,15 +1,22 @@
 ---
-import Container from "@components/container.astro";
-import Layout from "@layouts/Layout.astro";
+import Layout from "../layouts/Layout.astro";
+import { getLanguage, getTranslation } from "../utils/language";
+
+const currentLang = getLanguage();
 ---
 
 <Layout title="404 Not Found">
-  <Container>
-    <div class="min-h-[calc(100vh-16rem)] flex items-center justify-center">
-      <div class="mt-16 text-center">
-        <h1 class="text-4xl lg:text-5xl font-bold lg:tracking-tight">404</h1>
-        <p class="text-lg mt-4 text-slate-600">Page not found.</p>
-      </div>
+  <div class="min-h-[calc(100vh-16rem)] flex items-center justify-center">
+    <div class="mt-16 text-center">
+      <h1 class="text-4xl lg:text-5xl font-bold lg:tracking-tight" data-i18n="404.title">
+        {getTranslation('404.title')}
+      </h1>
+      <p class="text-lg mt-4 text-slate-600" data-i18n="404.description">
+        {getTranslation('404.description')}
+      </p>
+      <a href="/" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg mt-8 hover:bg-indigo-700" data-i18n="404.button">
+        {getTranslation('404.button')}
+      </a>
     </div>
-  </Container>
+  </div>
 </Layout>
